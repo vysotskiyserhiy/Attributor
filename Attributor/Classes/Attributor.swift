@@ -9,8 +9,8 @@
 import UIKit
 
 public class Attributor {
-    private let string: String
-    private var attributes: [NSRange : [NSAttributedString.Key : Any]] = [:]
+    fileprivate let string: String
+    fileprivate var attributes: [NSRange : [NSAttributedString.Key : Any]] = [:]
     
     public init(string: String) {
         self.string = string

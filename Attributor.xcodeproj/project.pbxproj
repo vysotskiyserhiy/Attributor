@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2A2C272D2167F7DF004047BB /* Attributor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A2C272B2167F7DF004047BB /* Attributor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2A2C27352167F853004047BB /* Attributor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2C27342167F853004047BB /* Attributor.swift */; };
+		2A4FFF3221982B6E00C62E27 /* Attributor.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 2A4FFF3121982B6E00C62E27 /* Attributor.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,6 +17,7 @@
 		2A2C272B2167F7DF004047BB /* Attributor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Attributor.h; sourceTree = "<group>"; };
 		2A2C272C2167F7DF004047BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A2C27342167F853004047BB /* Attributor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attributor.swift; sourceTree = "<group>"; };
+		2A4FFF3121982B6E00C62E27 /* Attributor.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Attributor.podspec; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 				2A2C27332167F849004047BB /* Classes */,
 				2A2C272B2167F7DF004047BB /* Attributor.h */,
 				2A2C272C2167F7DF004047BB /* Info.plist */,
+				2A4FFF3121982B6E00C62E27 /* Attributor.podspec */,
 			);
 			path = Attributor;
 			sourceTree = "<group>";
@@ -132,6 +135,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A4FFF3221982B6E00C62E27 /* Attributor.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
