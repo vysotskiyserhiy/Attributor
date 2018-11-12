@@ -1,5 +1,7 @@
 # Attributor
 
-```"Hello world!".attributor
+```
+"Hello world!".attributor
     .adding(attribute: UIColor.blue, for: .foregroundColor)
-.apply(to: titleLabel)```
+.apply(to: titleLabel)
+```
