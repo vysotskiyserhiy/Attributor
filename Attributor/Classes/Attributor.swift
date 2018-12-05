@@ -10,7 +10,8 @@ import UIKit
 
 public class Attributor {
     fileprivate let string: String
-    fileprivate var attributes: [NSRange : [NSAttributedString.Key : Any]] = [:]
+    fileprivate var addAttributes: [NSRange : [NSAttributedString.Key : Any]] = [:]
+    fileprivate var setAttributes: [NSRange : [NSAttributedString.Key : Any]] = [:]
     
     public init(string: String) {
         self.string = string
@@ -19,8 +20,12 @@ public class Attributor {
     public var attributed: NSAttributedString {
         let attributed = NSMutableAttributedString(string: string)
         
-        for (range, attributes) in attributes {
+        for (range, attributes) in addAttributes {
             attributed.addAttributes(attributes, range: range)
+        }
+        
+        for (range, attributes) in setAttributes {
+            attributed.setAttributes(attributes, range: range)
         }
         
         return attributed
@@ -52,13 +57,13 @@ extension Attributor {
 public extension Attributor {
     public func adding(attribute value: Any, for key: NSAttributedString.Key, range: NSRange? = nil) -> Attributor {
         let unwrappedRange = range ?? NSRange(location: 0, length: string.count)
-        attributes[unwrappedRange, default: [:]][key] = value
+        addAttributes[unwrappedRange, default: [:]][key] = value
         return self
     }
     
     public func setting(attribute value: Any, for key: NSAttributedString.Key, range: NSRange? = nil) -> Attributor {
         let unwrappedRange = range ?? NSRange(location: 0, length: string.count)
-        attributes[unwrappedRange] = [key : value]
+        setAttributes[unwrappedRange] = [key : value]
         return self
     }
     
@@ -66,7 +71,7 @@ public extension Attributor {
         let unwrappedRange = range ?? NSRange(location: 0, length: string.count)
         
         for (key, attribute) in values {
-            attributes[unwrappedRange, default: [:]][key] = attribute
+            addAttributes[unwrappedRange, default: [:]][key] = attribute
         }
         
         return self
@@ -74,7 +79,7 @@ public extension Attributor {
     
     public func setting(attributes values: [NSAttributedString.Key : Any], range: NSRange? = nil) -> Attributor {
         let unwrappedRange = range ?? NSRange(location: 0, length: string.count)
-        attributes[unwrappedRange] = values
+        setAttributes[unwrappedRange] = values
         return self
     }
 }
