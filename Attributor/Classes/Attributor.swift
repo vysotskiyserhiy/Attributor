@@ -9,16 +9,32 @@
 import UIKit
 
 public class Attributor {
-    fileprivate let string: String
-    fileprivate var addAttributes: [NSRange : [NSAttributedString.Key : Any]] = [:]
-    fileprivate var setAttributes: [NSRange : [NSAttributedString.Key : Any]] = [:]
+    fileprivate enum InitType {
+        case string
+        case attributedString
+    }
     
-    public init(string: String) {
+    fileprivate let initType: InitType
+    fileprivate let string: String
+    fileprivate let attributedString: NSAttributedString
+    
+    fileprivate var addAttributes: [(range: NSRange, attributes: [NSAttributedString.Key : Any])] = []
+    fileprivate var setAttributes: [(range: NSRange, attributes: [NSAttributedString.Key : Any])] = []
+    
+    public init(_ string: String) {
         self.string = string
+        self.attributedString = NSAttributedString(string: string)
+        initType = .string
+    }
+    
+    public init(_ attributed: NSAttributedString) {
+        self.string = attributed.string
+        self.attributedString = attributed
+        initType = .attributedString
     }
     
     public var attributed: NSAttributedString {
-        let attributed = NSMutableAttributedString(string: string)
+        let attributed = NSMutableAttributedString(attributedString: attributedString)
         
         for (range, attributes) in addAttributes {
             attributed.addAttributes(attributes, range: range)
@@ -55,51 +71,47 @@ extension Attributor {
 
 // MARK: - Add/Set attributes
 public extension Attributor {
-    public func adding(attribute value: Any, for key: NSAttributedString.Key, range: NSRange? = nil) -> Attributor {
+    func adding(attribute value: Any, for key: NSAttributedString.Key, range: NSRange? = nil) -> Attributor {
         let unwrappedRange = range ?? NSRange(location: 0, length: string.count)
-        addAttributes[unwrappedRange, default: [:]][key] = value
+        addAttributes.append((range: unwrappedRange, attributes: [key : value]))
         return self
     }
     
-    public func setting(attribute value: Any, for key: NSAttributedString.Key, range: NSRange? = nil) -> Attributor {
+    func setting(attribute value: Any, for key: NSAttributedString.Key, range: NSRange? = nil) -> Attributor {
         let unwrappedRange = range ?? NSRange(location: 0, length: string.count)
-        setAttributes[unwrappedRange] = [key : value]
+        setAttributes.append((unwrappedRange, [key : value]))
         return self
     }
     
-    public func adding(attributes values: [NSAttributedString.Key : Any], range: NSRange? = nil) -> Attributor {
+    func adding(attributes values: [NSAttributedString.Key : Any], range: NSRange? = nil) -> Attributor {
         let unwrappedRange = range ?? NSRange(location: 0, length: string.count)
-        
-        for (key, attribute) in values {
-            addAttributes[unwrappedRange, default: [:]][key] = attribute
-        }
-        
+        addAttributes.append((unwrappedRange, values))
         return self
     }
     
-    public func setting(attributes values: [NSAttributedString.Key : Any], range: NSRange? = nil) -> Attributor {
+    func setting(attributes values: [NSAttributedString.Key : Any], range: NSRange? = nil) -> Attributor {
         let unwrappedRange = range ?? NSRange(location: 0, length: string.count)
-        setAttributes[unwrappedRange] = values
+        setAttributes.append((unwrappedRange, values))
         return self
     }
 }
 
 
 
-extension Attributor {
-    public func adding(font: UIFont, range: NSRange? = nil) -> Attributor {
+public extension Attributor {
+    func adding(font: UIFont, range: NSRange? = nil) -> Attributor {
         return adding(attribute: font, for: .font, range: range)
     }
     
-    public func adding(color: UIColor, range: NSRange? = nil) -> Attributor {
+    func adding(color: UIColor, range: NSRange? = nil) -> Attributor {
         return adding(attribute: color, for: .foregroundColor, range: range)
     }
     
-    public func adding(kern: CGFloat, range: NSRange? = nil) -> Attributor {
+    func adding(kern: CGFloat, range: NSRange? = nil) -> Attributor {
         return adding(attribute: kern, for: .kern, range: range)
     }
     
-    public func adding(lineSpace: CGFloat, range: NSRange? = nil) -> Attributor {
+    func adding(lineSpace: CGFloat, range: NSRange? = nil) -> Attributor {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = lineSpace
         return adding(attribute: style, for: .paragraphStyle, range: range)
@@ -110,6 +122,13 @@ extension Attributor {
 
 extension String {
     public var attributor: Attributor {
-        return Attributor(string: self)
+        return Attributor(self)
     }
 }
+
+extension NSAttributedString {
+    public var attributor: Attributor {
+        return Attributor(self)
+    }
+}
+
