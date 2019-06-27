@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/Attributor.svg?style=flat)](http://cocoapods.org/pods/Attributor)
 
 
-## Easy block handle for event
+## Easy NSAttributedString creation
 
 Add padding to responsive elements 
 ```swift
